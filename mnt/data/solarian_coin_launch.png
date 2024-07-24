@@ -1,0 +1,50 @@
+from PIL import Image, ImageDraw, ImageFont
+import numpy as np
+
+# Create an image with a dark starry background
+width, height = 800, 600
+background_color = (15, 15, 40)
+image = Image.new('RGB', (width, height), background_color)
+
+# Draw stars
+draw = ImageDraw.Draw(image)
+stars = np.random.randint(0, width, size=(500, 2))
+for star in stars:
+    draw.point(tuple(star), fill=(255, 255, 255))
+
+# Create a bright sun at the horizon
+sun_center = (width // 2, height - 100)
+sun_radius = 80
+draw.ellipse((sun_center[0] - sun_radius, sun_center[1] - sun_radius,
+              sun_center[0] + sun_radius, sun_center[1] + sun_radius),
+             fill=(255, 215, 0), outline=None)
+
+# Add the Solarian Coin logo (as a placeholder, we use a simple circle)
+coin_center = (width // 2, height // 2)
+coin_radius = 100
+draw.ellipse((coin_center[0] - coin_radius, coin_center[1] - coin_radius,
+              coin_center[0] + coin_radius, coin_center[1] + coin_radius),
+             fill=(192, 192, 192), outline=(255, 255, 255))
+
+# Add text
+try:
+    font_large = ImageFont.truetype("arial.ttf", 50)
+    font_small = ImageFont.truetype("arial.ttf", 20)
+except IOError:
+    font_large = ImageFont.load_default()
+    font_small = ImageFont.load_default()
+
+text_title = "Solarian Coin"
+text_subtitle = "Launching Soon"
+text_footer = "Join us on this cosmic journey to the future of cryptocurrency!"
+
+draw.text((width // 2 - draw.textsize(text_title, font=font_large)[0] // 2, 50), 
+          text_title, fill=(255, 255, 255), font=font_large)
+
+draw.text((width // 2 - draw.textsize(text_subtitle, font=font_large)[0] // 2, 120), 
+          text_subtitle, fill=(255, 255, 255), font=font_large)
+
+draw.text((width // 2 - draw.textsize(text_footer, font=font_small)[0] // 2, height - 30), 
+          text_footer, fill=(255, 255, 255), font=font_small)
+
+image.show()
