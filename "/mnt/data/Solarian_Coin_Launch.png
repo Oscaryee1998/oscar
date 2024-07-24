@@ -1,0 +1,42 @@
+from PIL import Image, ImageDraw, ImageFont
+
+# Create a blank image with white background
+width, height = 800, 400
+image = Image.new('RGB', (width, height), 'white')
+draw = ImageDraw.Draw(image)
+
+# Load a font
+try:
+    font = ImageFont.truetype("arial.ttf", 48)
+except IOError:
+    font = ImageFont.load_default()
+
+# Add text to the image
+text = "Solarian Coin Launching Soon!"
+subtext = "Join the Future of Decentralized Energy."
+text_width, text_height = draw.textsize(text, font=font)
+subtext_width, subtext_height = draw.textsize(subtext, font=font)
+
+# Position the text in the center
+text_x = (width - text_width) // 2
+text_y = (height - text_height) // 3
+subtext_x = (width - subtext_width) // 2
+subtext_y = text_y + text_height + 20
+
+draw.text((text_x, text_y), text, fill="black", font=font)
+draw.text((subtext_x, subtext_y), subtext, fill="gray", font=font)
+
+# Create a simple Solarian Coin logo (a circle with an "S")
+logo_size = 100
+logo_x = (width - logo_size) // 2
+logo_y = subtext_y + subtext_height + 30
+draw.ellipse((logo_x, logo_y, logo_x + logo_size, logo_y + logo_size), outline="black", width=3)
+draw.text((logo_x + logo_size // 4, logo_y + logo_size // 4), "S", fill="black", font=font)
+
+# Save the image to a file
+image_path = "/mnt/data/Solarian_Coin_Launch.png"
+image.save(image_path)
+
+image.show()
+
+image_path
